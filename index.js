@@ -1,7 +1,6 @@
 #! /usr/bin/env node
 
 const fs = require('fs'), 
-    assert = require('assert'),
     _ = require('lodash'),
     newman = require('newman'),
     program = require('commander'),

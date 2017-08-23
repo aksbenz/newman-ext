@@ -1,35 +1,35 @@
 {
-  "name": "newman-ext",
-  "version": "1.0.0",
-  "description": "Extensions to newman",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "bin": {
-    "newman-ext": "index.js"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aksbenz/newman-ext.git"
-  },
-  "keywords": [
-    "newman",
-    "postman"
-  ],
-  "author": "abainslay",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/aksbenz/newman-ext/issues"
-  },
-  "homepage": "https://github.com/aksbenz/newman-ext#readme",
-  "dependencies": {
-    "commander": "^2.11.0",
-    "lodash": "^4.17.4",
-    "newman": "^3.8.0",
-    "postman-collection": "^2.1.0"
-  }
+    "name": "newman-ext",
+    "version": "1.0.0",
+    "description": "Extensions to newman",
+    "main": "newman-ext.js",
+    "directories": {
+        "test": "test"
+    },
+    "bin": {
+        "newman-ext": "newman-ext.js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/aksbenz/newman-ext.git"
+    },
+    "keywords": [
+        "newman",
+        "postman"
+    ],
+    "author": "abainslay",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/aksbenz/newman-ext/issues"
+    },
+    "homepage": "https://github.com/aksbenz/newman-ext#readme",
+    "dependencies": {
+        "commander": "^2.11.0",
+        "lodash": "^4.17.4",
+        "newman": "^3.8.0",
+        "postman-collection": "^2.1.0"
+    }
 }

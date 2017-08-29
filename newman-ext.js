@@ -55,21 +55,14 @@ function splitCollection(collection, count) {
     count = _.parseInt(count);
     let collections = [];
     let totalFolders = collection.items.count();
-    // console.log('totalFolders: ' + totalFolders);
     if (count >= totalFolders)
         collections.push(collection);
     else {
         for (var i = 0; i < totalFolders; i += count) {
             let partCollection = new Collection(collection.toJSON());
-            // console.log(partCollection.items.idx(i).name);
             for (var j = totalFolders - 1; j >= 0; j--) // Remove all other folders from this collection
-            {
-                if (!(j >= i && j < (i + count))) {
-                    // console.log('___REMOVE: ' + j + ' - ' + partCollection.items.idx(j).name);
+                if (!(j >= i && j < (i + count)))
                     partCollection.items.remove(partCollection.items.idx(j).id);
-                }
-            }
-            // partCollection.items.each(i => console.log('_____' + i.name));
             collections.push(partCollection);
         }
     }

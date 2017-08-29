@@ -7,11 +7,7 @@ const fs = require('fs'),
     logLevel = 'INFO|ERROR|FATAL',
     cmd = require('./lib/cmd');
 
-let testMode = false;
-
 module.exports.run = run;
-module.exports.setTestMode = function(mode) { testMode = mode; }
-module.exports.getTestMode = function() { return testMode; }
 
 if (process.argv.length > 2)
     run(process.argv);
@@ -21,25 +17,63 @@ else
 function run(args) {
     let program = cmd(args);
     let options = prepareOptions(program);
+    let inputCollection = new Collection(JSON.parse(fs.readFileSync(program.run).toString()));
+    let collections = [];
 
     if (program.folder.length > 1) {
-        let inputCollection = new Collection(JSON.parse(fs.readFileSync(program.run).toString()));
         let filteredCollection = filter(inputCollection, inputCollection, program.folder);
-        options.collection = filteredCollection;
+        inputCollection = filteredCollection;
         _.unset(options, 'folder');
-    } else
-        options.collection = program.run;
+    }
 
-    console.log(args);
-
-    if (testMode)
-        return options;
+    if (program.parallel)
+        collections = splitCollection(inputCollection, program.parallel)
     else
-        newman.run(options, (err, summary) => {
+        collections.push(inputCollection);
+
+    if (program.demo) {
+        console.log('DEMO MODE');
+        options.collections = collections;
+        return options;
+    } else
+        executeNewman(collections, options);
+}
+
+function executeNewman(collections, options) {
+    collections.forEach(collection => {
+        let option = _.cloneDeep(options);
+        option.collection = collection;
+        newman.run(option, (err, summary) => {
             if (err)
                 log('ERROR', err);
             log('INFO', 'DONE');
         });
+    })
+}
+
+function splitCollection(collection, count) {
+    count = _.parseInt(count);
+    let collections = [];
+    let totalFolders = collection.items.count();
+    // console.log('totalFolders: ' + totalFolders);
+    if (count >= totalFolders)
+        collections.push(collection);
+    else {
+        for (var i = 0; i < totalFolders; i += count) {
+            let partCollection = new Collection(collection.toJSON());
+            // console.log(partCollection.items.idx(i).name);
+            for (var j = totalFolders - 1; j >= 0; j--) // Remove all other folders from this collection
+            {
+                if (!(j >= i && j < (i + count))) {
+                    // console.log('___REMOVE: ' + j + ' - ' + partCollection.items.idx(j).name);
+                    partCollection.items.remove(partCollection.items.idx(j).id);
+                }
+            }
+            // partCollection.items.each(i => console.log('_____' + i.name));
+            collections.push(partCollection);
+        }
+    }
+    return collections;
 }
 
 function prepareOptions(program) {

@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const fs = require('fs'),
+var fs = require('fs'),
     _ = require('lodash'),
     newman = require('newman'),
     Collection = require('postman-collection').Collection,
@@ -8,14 +8,13 @@ const fs = require('fs'),
     cmd = require('./lib/cmd');
 
 module.exports.run = run;
-
-if (process.argv.length > 2)
+if (process.argv[1].endsWith('newman-ext.js'))
     run(process.argv);
 else
     console.log('Usage: newman-ext run <collection> [options]');
 
-function run(args) {
-    let program = cmd(args);
+function run(params) {
+    let program = cmd(params);
     let options = prepareOptions(program);
     let inputCollection = new Collection(JSON.parse(fs.readFileSync(program.run).toString()));
     let collections = [];
@@ -32,7 +31,7 @@ function run(args) {
         collections.push(inputCollection);
 
     if (program.demo) {
-        console.log('DEMO MODE');
+        // console.log('DEMO MODE');
         options.collections = collections;
         return options;
     } else

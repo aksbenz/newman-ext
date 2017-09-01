@@ -6,6 +6,9 @@ let path = 'C:/tmp/euat.json';
 let initparams = _.concat(process.argv, 'run', './tests/sample.postman_collection.json', '--demo');
 
 beforeEach(() => {
+    // This is required to have a new command object for each test
+    // Otherwise due to how CommanderJS creates the command object
+    // it is just created once by first test and same object is used by all tests
     var program = rewire(require.resolve('commander'));
     var cmd = rewire(require.resolve('../lib/cmd.js'));
     cmd.__set__('program', program);

@@ -8,6 +8,7 @@ var fs = require('fs'),
     cmd = require('./lib/cmd');
 
 module.exports.run = run;
+
 if (process.argv[1].endsWith('newman-ext.js'))
     run(process.argv);
 else
@@ -25,13 +26,14 @@ function run(params) {
         _.unset(options, 'folder');
     }
 
-    if (program.parallel)
-        collections = splitCollection(inputCollection, program.parallel)
+    if (program.group)
+        collections = splitCollection(inputCollection, program.group)
+    else if (program.parallel)
+        collections = splitCollection(inputCollection, program.parallel, true)
     else
         collections.push(inputCollection);
 
     if (program.demo) {
-        // console.log('DEMO MODE');
         options.collections = collections;
         return options;
     } else
@@ -50,10 +52,12 @@ function executeNewman(collections, options) {
     })
 }
 
-function splitCollection(collection, count) {
+function splitCollection(collection, count, isParallel = false) {
     count = _.parseInt(count);
     let collections = [];
     let totalFolders = collection.items.count();
+    if (isParallel)
+        count = Math.ceil(totalFolders / count);
     if (count >= totalFolders)
         collections.push(collection);
     else {

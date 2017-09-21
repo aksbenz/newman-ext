@@ -2,7 +2,7 @@ const _ = require('lodash');
 var rewire = require("rewire");
 var n = rewire(require.resolve('../newman-ext.js'));
 
-let path = 'C:/tmp/euat.json';
+let path = 'C:/tmp/tempfile.json';
 let initparams = _.concat(process.argv, 'run', './tests/sample.postman_collection.json', '--demo');
 
 beforeEach(() => {

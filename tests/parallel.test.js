@@ -5,7 +5,6 @@ var rewire = require("rewire");
 var coll = require('../lib/collection');
 var n = rewire(require.resolve('../newman-ext.js'));
 
-let path = 'C:/tmp/euat.json';
 let initparams = _.concat(process.argv, 'run', './tests/sample.postman_collection.json', '--demo');
 
 beforeEach(() => {

@@ -4,6 +4,7 @@ var fs = require('fs'),
     _ = require('lodash'),
     newman = require('newman'),
     Collection = require('postman-collection').Collection,
+    ItemGroup = require('postman-collection').ItemGroup,
     logLevel = 'INFO|ERROR|FATAL',
     cmd = require('./lib/cmd');
 
@@ -17,8 +18,25 @@ else
 function run(params) {
     let program = cmd(params);
     let options = prepareOptions(program);
-    let inputCollection = new Collection(JSON.parse(fs.readFileSync(program.run).toString()));
+    let inputCollection;
     let collections = [];
+
+    // Merge multiple collections
+    if (program.run.length > 1) {
+        let name = '';
+        inputCollection = new Collection({ info: { 'name': 'merged' } });
+        _.each(program.run, (collPath) => {
+            let coll = new Collection(JSON.parse(fs.readFileSync(collPath).toString()));
+            let collAsFolder = new ItemGroup({ "name": coll.name });
+            name += '_' + coll.name;
+            coll.items.each((item) => {
+                collAsFolder.items.add(item);
+            });
+            inputCollection.items.add(collAsFolder);
+        });
+        inputCollection.name = name.slice(1);
+    } else
+        inputCollection = new Collection(JSON.parse(fs.readFileSync(program.run[0]).toString()));
 
     if (program.folder.length > 1) {
         let filteredCollection = filter(inputCollection, inputCollection, program.folder);

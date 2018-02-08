@@ -3,10 +3,12 @@
 var fs = require('fs'),
     _ = require('lodash'),
     newman = require('newman'),
+    tmp = require('tmp'),
     Collection = require('postman-collection').Collection,
     ItemGroup = require('postman-collection').ItemGroup,
     logLevel = 'INFO|ERROR|FATAL',
-    cmd = require('./lib/cmd');
+    cmd = require('./lib/cmd'),
+    coll_ops = require('./lib/collection');
 
 module.exports.run = run;
 
@@ -17,42 +19,36 @@ else
 
 function run(params) {
     let program = cmd(params);
+
     let options = prepareOptions(program);
     let inputCollection;
     let collections = [];
 
     // Merge multiple collections
     if (program.run.length > 1) {
-        let name = '';
-        inputCollection = new Collection({ info: { 'name': 'merged' } });
-        _.each(program.run, (collPath) => {
-            let coll = new Collection(JSON.parse(fs.readFileSync(collPath).toString()));
-            let collAsFolder = new ItemGroup({ "name": coll.name });
-            name += '_' + coll.name;
-            coll.items.each((item) => {
-                collAsFolder.items.add(item);
-            });
-            inputCollection.items.add(collAsFolder);
-        });
-        inputCollection.name = name.slice(1);
+        inputCollection = coll_ops.merge_v2(program.run);
     } else
-        inputCollection = new Collection(JSON.parse(fs.readFileSync(program.run[0]).toString()));
+        inputCollection = JSON.parse(fs.readFileSync(program.run[0]).toString());
 
+    // Filter Collection to include only the provided folders
     if (program.folder.length > 1) {
-        let filteredCollection = filter(inputCollection, inputCollection, program.folder);
-        inputCollection = filteredCollection;
+        inputCollection = coll_ops.filter_v2(inputCollection, inputCollection, program.folder);
         _.unset(options, 'folder');
     }
 
+    // Split into multiple collections
     if (program.group)
-        collections = splitCollection(inputCollection, program.group)
+        collections = coll_ops.split_v2(inputCollection, program.group)
     else if (program.parallel)
-        collections = splitCollection(inputCollection, program.parallel, true)
+        collections = coll_ops.split_v2(inputCollection, program.parallel, true)
     else
         collections.push(inputCollection);
 
     if (program.demo) {
-        options.collections = collections;
+        // In DEMO mode, convert each collection to Postman Collection Object to support for unit tests
+        options.collections = _.each(collections, (coll, idx) => {
+            collections[idx] = new Collection(coll);
+        });
         return options;
     } else
         executeNewman(collections, options);
@@ -61,6 +57,7 @@ function run(params) {
 function executeNewman(collections, options) {
     collections.forEach(collection => {
         let option = _.cloneDeep(options);
+
         option.collection = collection;
         newman.run(option, (err, summary) => {
             if (err)
@@ -68,26 +65,6 @@ function executeNewman(collections, options) {
             log('INFO', 'DONE');
         });
     })
-}
-
-function splitCollection(collection, count, isParallel = false) {
-    count = _.parseInt(count);
-    let collections = [];
-    let totalFolders = collection.items.count();
-    if (isParallel)
-        count = Math.ceil(totalFolders / count);
-    if (count >= totalFolders)
-        collections.push(collection);
-    else {
-        for (var i = 0; i < totalFolders; i += count) {
-            let partCollection = new Collection(collection.toJSON());
-            for (var j = totalFolders - 1; j >= 0; j--) // Remove all other folders from this collection
-                if (!(j >= i && j < (i + count)))
-                    partCollection.items.remove(partCollection.items.idx(j).id);
-            collections.push(partCollection);
-        }
-    }
-    return collections;
 }
 
 function prepareOptions(program) {
@@ -131,45 +108,6 @@ function prepareOptions(program) {
         else return true;
     })
     return options;
-}
-
-// Keeps all requests and folders below the Matching Folders
-// Maintains tree structure of matching folder
-// Deletes any requests in parent folders
-function filter(folder, parent, includeFolders, l = '|__') {
-    log('DEBUG', l + 'START:' + folder.name);
-    if (!includeFolders.includes(folder.name)) { // Skip the Folder if Name is part of include list
-        if (!isLeaf(folder)) { // Check if it has any sub-folders
-            for (var i = folder.items.count() - 1; i >= 0; i--) {
-                let item = folder.items.idx(i);
-                log('DEBUG', l + 'ITEM:' + item.name)
-                if (item.items) // If a folder then recurse
-                    filter(item, folder, includeFolders, l + '|__');
-                else // If a request then remove it
-                {
-                    log('DEBUG', l + 'REMOVE1:' + item.name);
-                    folder.items.remove(item.id);
-                }
-            }
-            if (isLeaf(folder)) // If all sub-folders are removed then remove the parent
-            {
-                log('DEBUG', l + 'REMOVE2:' + folder.name);
-                parent.items.remove(folder.id);
-            }
-        } else // Remove if there are no sub-folders
-        {
-            log('DEBUG', l + 'REMOVE3:' + folder.name);
-            parent.items.remove(folder.id);
-        }
-    }
-    log('DEBUG', l + 'END:' + folder.name);
-    return folder;
-}
-
-function isLeaf(fld) {
-    return !fld.items.all().some(item => {
-        return item.items;
-    });
 }
 
 function log(lvl, msg) {

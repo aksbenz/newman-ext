@@ -17,17 +17,17 @@ beforeEach(() => {
 });
 
 test('--folder single', () => {
-    let options = n.run(_.concat(initparams, '--folder', 'one'));
-    expect(options.folder).to.equal('one');
+    let executions = n.run(_.concat(initparams, '--folder', 'one'));
+    expect(executions[0].folder).to.equal('one');
 });
 test('--folder multiple single level', () => {
-    let options = n.run(_.concat(initparams, '--folder', 'one', '--folder', 'two'));
-    expect(options.folder).to.be.undefined;
-    expect(options.collections).to.have.length(1);
-    expect(options.collections[0].items.count()).to.equal(2);
+    let executions = n.run(_.concat(initparams, '--folder', 'one', '--folder', 'two'));
+    expect(executions[0].folder).to.be.undefined;
+    expect(executions).to.have.length(1);
+    expect(executions[0].collection.items.count()).to.equal(2);
 
-    let fldone = options.collections[0].items.idx(0),
-        fldtwo = options.collections[0].items.idx(1);
+    let fldone = executions[0].collection.items.idx(0),
+        fldtwo = executions[0].collection.items.idx(1);
     expect(fldone.name).to.equal('one');
     expect(fldtwo.name).to.equal('two');
     expect(fldone.items.count()).to.equal(3);
@@ -36,13 +36,13 @@ test('--folder multiple single level', () => {
 });
 
 test('--folder multiple level two', () => {
-    let options = n.run(_.concat(initparams, '--folder', 'one_one', '--folder', 'two_one'));
-    expect(options.folder).to.be.undefined;
-    expect(options.collections).to.have.length(1);
-    expect(options.collections[0].items.count()).to.equal(2);
+    let executions = n.run(_.concat(initparams, '--folder', 'one_one', '--folder', 'two_one'));
+    expect(executions[0].folder).to.be.undefined;
+    expect(executions).to.have.length(1);
+    expect(executions[0].collection.items.count()).to.equal(2);
 
-    let fldone = options.collections[0].items.idx(0),
-        fldtwo = options.collections[0].items.idx(1);
+    let fldone = executions[0].collection.items.idx(0),
+        fldtwo = executions[0].collection.items.idx(1);
 
     expect(fldone.name).to.equal('one');
     expect(fldtwo.name).to.equal('two');

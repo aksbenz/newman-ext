@@ -1,27 +1,21 @@
 {
-	"variables": [],
 	"info": {
 		"name": "sample",
-		"_postman_id": "a84279b0-31e1-22d7-6599-f769311148e9",
-		"description": "",
+		"_postman_id": "01a65fcd-0e2c-e507-8378-d83ea14fc793",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "one",
-			"description": "",
 			"item": [
 				{
 					"name": "one_one",
-					"description": "",
 					"item": [
 						{
 							"name": "one_one_one",
-							"description": "",
 							"item": [
 								{
 									"name": "one_one_one_one",
-									"description": "",
 									"item": [
 										{
 											"name": "01010101_Postman Now",
@@ -38,17 +32,19 @@
 												}
 											],
 											"request": {
-												"url": "https://postman-echo.com/time/now",
 												"method": "GET",
 												"header": [
 													{
 														"key": "authorization",
-														"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-														"description": ""
+														"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 													}
 												],
-												"body": {},
-												"description": ""
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": "https://postman-echo.com/time/now",
+												"description": "@sanity"
 											},
 											"response": []
 										}
@@ -57,7 +53,6 @@
 								},
 								{
 									"name": "one_one_one_two",
-									"description": "",
 									"item": [
 										{
 											"name": "01010102_Postman Now",
@@ -74,17 +69,18 @@
 												}
 											],
 											"request": {
-												"url": "https://postman-echo.com/time/now",
 												"method": "GET",
 												"header": [
 													{
 														"key": "authorization",
-														"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-														"description": ""
+														"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 													}
 												],
-												"body": {},
-												"description": ""
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": "https://postman-echo.com/time/now"
 											},
 											"response": []
 										}
@@ -93,7 +89,6 @@
 								},
 								{
 									"name": "common_one",
-									"description": "",
 									"item": [
 										{
 											"name": "010101C_Postman Now",
@@ -110,17 +105,18 @@
 												}
 											],
 											"request": {
-												"url": "https://postman-echo.com/time/now",
 												"method": "GET",
 												"header": [
 													{
 														"key": "authorization",
-														"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-														"description": ""
+														"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 													}
 												],
-												"body": {},
-												"description": ""
+												"body": {
+													"mode": "raw",
+													"raw": ""
+												},
+												"url": "https://postman-echo.com/time/now"
 											},
 											"response": []
 										}
@@ -142,17 +138,19 @@
 										}
 									],
 									"request": {
-										"url": "https://postman-echo.com/time/now",
 										"method": "GET",
 										"header": [
 											{
 												"key": "authorization",
-												"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-												"description": ""
+												"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 											}
 										],
-										"body": {},
-										"description": ""
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": "https://postman-echo.com/time/now",
+										"description": "@sanity"
 									},
 									"response": []
 								}
@@ -174,17 +172,19 @@
 								}
 							],
 							"request": {
-								"url": "https://postman-echo.com/time/now",
 								"method": "GET",
 								"header": [
 									{
 										"key": "authorization",
-										"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-										"description": ""
+										"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 									}
 								],
-								"body": {},
-								"description": ""
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "https://postman-echo.com/time/now",
+								"description": "@l2"
 							},
 							"response": []
 						}
@@ -193,7 +193,6 @@
 				},
 				{
 					"name": "one_two",
-					"description": "",
 					"item": [
 						{
 							"name": "0102_Postman Now",
@@ -210,17 +209,19 @@
 								}
 							],
 							"request": {
-								"url": "https://postman-echo.com/time/now",
 								"method": "GET",
 								"header": [
 									{
 										"key": "authorization",
-										"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-										"description": ""
+										"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 									}
 								],
-								"body": {},
-								"description": ""
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "https://postman-echo.com/time/now",
+								"description": "@l2"
 							},
 							"response": []
 						}
@@ -242,17 +243,19 @@
 						}
 					],
 					"request": {
-						"url": "https://postman-echo.com/time/now",
 						"method": "GET",
 						"header": [
 							{
 								"key": "authorization",
-								"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-								"description": ""
+								"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 							}
 						],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://postman-echo.com/time/now",
+						"description": "@l1"
 					},
 					"response": []
 				}
@@ -260,15 +263,12 @@
 		},
 		{
 			"name": "two",
-			"description": "",
 			"item": [
 				{
 					"name": "two_one",
-					"description": "",
 					"item": [
 						{
 							"name": "common_one",
-							"description": "",
 							"item": [
 								{
 									"name": "0201C_Postman Now",
@@ -285,17 +285,18 @@
 										}
 									],
 									"request": {
-										"url": "https://postman-echo.com/time/now",
 										"method": "GET",
 										"header": [
 											{
 												"key": "authorization",
-												"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-												"description": ""
+												"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 											}
 										],
-										"body": {},
-										"description": ""
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": "https://postman-echo.com/time/now"
 									},
 									"response": []
 								}
@@ -317,17 +318,19 @@
 								}
 							],
 							"request": {
-								"url": "https://postman-echo.com/time/now",
 								"method": "GET",
 								"header": [
 									{
 										"key": "authorization",
-										"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-										"description": ""
+										"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 									}
 								],
-								"body": {},
-								"description": ""
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "https://postman-echo.com/time/now",
+								"description": "@l2"
 							},
 							"response": []
 						}
@@ -349,17 +352,19 @@
 						}
 					],
 					"request": {
-						"url": "https://postman-echo.com/time/now",
 						"method": "GET",
 						"header": [
 							{
 								"key": "authorization",
-								"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-								"description": ""
+								"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 							}
 						],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://postman-echo.com/time/now",
+						"description": "@sanity @l1"
 					},
 					"response": []
 				}
@@ -367,11 +372,9 @@
 		},
 		{
 			"name": "three",
-			"description": "",
 			"item": [
 				{
 					"name": "three_one",
-					"description": "",
 					"item": [
 						{
 							"name": "0301_Postman Now",
@@ -388,17 +391,19 @@
 								}
 							],
 							"request": {
-								"url": "https://postman-echo.com/time/now",
 								"method": "GET",
 								"header": [
 									{
 										"key": "authorization",
-										"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-										"description": ""
+										"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 									}
 								],
-								"body": {},
-								"description": ""
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "https://postman-echo.com/time/now",
+								"description": "@l2"
 							},
 							"response": []
 						}
@@ -407,7 +412,6 @@
 				},
 				{
 					"name": "three_two",
-					"description": "",
 					"item": [
 						{
 							"name": "0302_Postman Now",
@@ -424,17 +428,19 @@
 								}
 							],
 							"request": {
-								"url": "https://postman-echo.com/time/now",
 								"method": "GET",
 								"header": [
 									{
 										"key": "authorization",
-										"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-										"description": ""
+										"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 									}
 								],
-								"body": {},
-								"description": ""
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "https://postman-echo.com/time/now",
+								"description": "@l2"
 							},
 							"response": []
 						}
@@ -443,7 +449,6 @@
 				},
 				{
 					"name": "common_one",
-					"description": "",
 					"item": [
 						{
 							"name": "03C_Postman Now",
@@ -460,17 +465,19 @@
 								}
 							],
 							"request": {
-								"url": "https://postman-echo.com/time/now",
 								"method": "GET",
 								"header": [
 									{
 										"key": "authorization",
-										"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-										"description": ""
+										"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 									}
 								],
-								"body": {},
-								"description": ""
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": "https://postman-echo.com/time/now",
+								"description": "@l2 @common"
 							},
 							"response": []
 						}
@@ -492,17 +499,19 @@
 						}
 					],
 					"request": {
-						"url": "https://postman-echo.com/time/now",
 						"method": "GET",
 						"header": [
 							{
 								"key": "authorization",
-								"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-								"description": ""
+								"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 							}
 						],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://postman-echo.com/time/now",
+						"description": "@l1"
 					},
 					"response": []
 				}
@@ -510,7 +519,6 @@
 		},
 		{
 			"name": "four",
-			"description": "",
 			"item": [
 				{
 					"name": "04_Postman Now",
@@ -527,17 +535,19 @@
 						}
 					],
 					"request": {
-						"url": "https://postman-echo.com/time/now",
 						"method": "GET",
 						"header": [
 							{
 								"key": "authorization",
-								"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-								"description": ""
+								"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 							}
 						],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://postman-echo.com/time/now",
+						"description": "@l1"
 					},
 					"response": []
 				}
@@ -545,7 +555,6 @@
 		},
 		{
 			"name": "five",
-			"description": "",
 			"item": [
 				{
 					"name": "05_Postman Now",
@@ -562,17 +571,19 @@
 						}
 					],
 					"request": {
-						"url": "https://postman-echo.com/time/now",
 						"method": "GET",
 						"header": [
 							{
 								"key": "authorization",
-								"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-								"description": ""
+								"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 							}
 						],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://postman-echo.com/time/now",
+						"description": "@sanity @l1"
 					},
 					"response": []
 				}
@@ -580,7 +591,6 @@
 		},
 		{
 			"name": "six",
-			"description": "",
 			"item": [
 				{
 					"name": "06_Postman Now",
@@ -597,17 +607,19 @@
 						}
 					],
 					"request": {
-						"url": "https://postman-echo.com/time/now",
 						"method": "GET",
 						"header": [
 							{
 								"key": "authorization",
-								"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-								"description": ""
+								"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 							}
 						],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://postman-echo.com/time/now",
+						"description": "@l1"
 					},
 					"response": []
 				}
@@ -615,7 +627,6 @@
 		},
 		{
 			"name": "seven",
-			"description": "",
 			"item": [
 				{
 					"name": "07_Postman Now",
@@ -632,17 +643,19 @@
 						}
 					],
 					"request": {
-						"url": "https://postman-echo.com/time/now",
 						"method": "GET",
 						"header": [
 							{
 								"key": "authorization",
-								"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-								"description": ""
+								"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 							}
 						],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://postman-echo.com/time/now",
+						"description": "@l1"
 					},
 					"response": []
 				}
@@ -650,7 +663,6 @@
 		},
 		{
 			"name": "eight",
-			"description": "",
 			"item": [
 				{
 					"name": "08_Postman Now",
@@ -667,17 +679,19 @@
 						}
 					],
 					"request": {
-						"url": "https://postman-echo.com/time/now",
 						"method": "GET",
 						"header": [
 							{
 								"key": "authorization",
-								"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-								"description": ""
+								"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 							}
 						],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://postman-echo.com/time/now",
+						"description": "@l1"
 					},
 					"response": []
 				}
@@ -685,7 +699,6 @@
 		},
 		{
 			"name": "nine",
-			"description": "",
 			"item": [
 				{
 					"name": "09_Postman Now",
@@ -702,17 +715,19 @@
 						}
 					],
 					"request": {
-						"url": "https://postman-echo.com/time/now",
 						"method": "GET",
 						"header": [
 							{
 								"key": "authorization",
-								"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-								"description": ""
+								"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 							}
 						],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://postman-echo.com/time/now",
+						"description": "@l1"
 					},
 					"response": []
 				}
@@ -720,7 +735,6 @@
 		},
 		{
 			"name": "ten",
-			"description": "",
 			"item": [
 				{
 					"name": "10_Postman Now",
@@ -737,17 +751,19 @@
 						}
 					],
 					"request": {
-						"url": "https://postman-echo.com/time/now",
 						"method": "GET",
 						"header": [
 							{
 								"key": "authorization",
-								"value": "Basic dGVzdGVyOnRlc3Rlcg==",
-								"description": ""
+								"value": "Basic dGVzdGVyOnRlc3Rlcg=="
 							}
 						],
-						"body": {},
-						"description": ""
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "https://postman-echo.com/time/now",
+						"description": "@l1"
 					},
 					"response": []
 				}

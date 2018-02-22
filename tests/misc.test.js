@@ -18,37 +18,37 @@ beforeEach(() => {
 });
 
 test('--group and --folder', () => {
-    let options = n.run(_.concat(initparams, '--group', '3', '--folder', 'common_one', '--folder', 'five', '--folder', 'six', '--folder', 'seven'));
-    expect(options.collections).to.have.length(2);
+    let executions = n.run(_.concat(initparams, '--group', '3', '--folder', 'common_one', '--folder', 'five', '--folder', 'six', '--folder', 'seven'));
+    expect(executions).to.have.length(2);
 
-    expect(options.collections[0].items.count()).to.eql(3);
-    expect(options.collections[1].items.count()).to.eql(3);
+    expect(executions[0].collection.items.count()).to.eql(3);
+    expect(executions[1].collection.items.count()).to.eql(3);
 
-    expect(coll.allFoldersUnder(options.collections[0])).to.have.length(9);
-    expect(coll.allRequestsUnder(options.collections[0])).to.have.length(3);
+    expect(coll.allFoldersUnder(executions[0].collection)).to.have.length(9);
+    expect(coll.allRequestsUnder(executions[0].collection)).to.have.length(3);
 
-    expect(coll.allFoldersUnder(options.collections[1])).to.have.length(3);
-    expect(coll.allRequestsUnder(options.collections[1])).to.have.length(3);
+    expect(coll.allFoldersUnder(executions[1].collection)).to.have.length(3);
+    expect(coll.allRequestsUnder(executions[1].collection)).to.have.length(3);
 
-    let fldNames = _.map(coll.allFoldersUnder(options.collections[0]), fld => { return fld.name });
+    let fldNames = _.map(coll.allFoldersUnder(executions[0].collection), fld => { return fld.name });
     let expFlds = ['one', 'one_one', 'one_one_one', 'common_one', 'two', 'two_one', 'common_one', 'three', 'common_one'];
     expect(_.difference(expFlds, fldNames)).to.have.length(0);
 });
 
 test('--parallel and --folder', () => {
-    let options = n.run(_.concat(initparams, '--group', '3', '--folder', 'common_one', '--folder', 'five', '--folder', 'six', '--folder', 'seven'));
-    expect(options.collections).to.have.length(2);
+    let executions = n.run(_.concat(initparams, '--group', '3', '--folder', 'common_one', '--folder', 'five', '--folder', 'six', '--folder', 'seven'));
+    expect(executions).to.have.length(2);
 
-    expect(options.collections[0].items.count()).to.eql(3);
-    expect(options.collections[1].items.count()).to.eql(3);
+    expect(executions[0].collection.items.count()).to.eql(3);
+    expect(executions[1].collection.items.count()).to.eql(3);
 
-    expect(coll.allFoldersUnder(options.collections[0])).to.have.length(9);
-    expect(coll.allRequestsUnder(options.collections[0])).to.have.length(3);
+    expect(coll.allFoldersUnder(executions[0].collection)).to.have.length(9);
+    expect(coll.allRequestsUnder(executions[0].collection)).to.have.length(3);
 
-    expect(coll.allFoldersUnder(options.collections[1])).to.have.length(3);
-    expect(coll.allRequestsUnder(options.collections[1])).to.have.length(3);
+    expect(coll.allFoldersUnder(executions[1].collection)).to.have.length(3);
+    expect(coll.allRequestsUnder(executions[1].collection)).to.have.length(3);
 
-    let fldNames = _.map(coll.allFoldersUnder(options.collections[0]), fld => { return fld.name });
+    let fldNames = _.map(coll.allFoldersUnder(executions[0].collection), fld => { return fld.name });
     let expFlds = ['one', 'one_one', 'one_one_one', 'common_one', 'two', 'two_one', 'common_one', 'three', 'common_one'];
     expect(_.difference(expFlds, fldNames)).to.have.length(0);
 });

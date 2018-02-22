@@ -1,2 +1,5 @@
 node_modules/
 newman/
+temp.js
+results.json
+.vscode/settings.json

@@ -2,10 +2,10 @@
 
 var fs = require('fs'),
     _ = require('lodash'),
+    uuid = require('uuid/v4'),
     newman = require('newman'),
     tmp = require('tmp'),
     Collection = require('postman-collection').Collection,
-    ItemGroup = require('postman-collection').ItemGroup,
     logLevel = 'INFO|ERROR|FATAL',
     cmd = require('./lib/cmd'),
     coll_ops = require('./lib/collection');
@@ -23,6 +23,7 @@ function run(params) {
     let options = prepareOptions(program);
     let inputCollection;
     let collections = [];
+    let executions = [];
 
     // Merge multiple collections
     if (program.run.length > 1) {
@@ -30,31 +31,59 @@ function run(params) {
     } else
         inputCollection = JSON.parse(fs.readFileSync(program.run[0]).toString());
 
-    // Filter Collection to include only the provided folders
-    if (program.folder.length > 1) {
-        inputCollection = coll_ops.filter_v2(inputCollection, inputCollection, program.folder);
-        _.unset(options, 'folder');
+    if (program.tagIncludetest.length > 0) {
+        // console.log('TAG INCLUDE');
+        // console.log(program.tagIncludetest);
+        inputCollection = coll_ops.tagFilter(inputCollection, inputCollection, { 'tagIncludetest': program.tagIncludetest })
+            // console.log(inputCollection);
     }
 
-    // Split into multiple collections
-    if (program.group)
-        collections = coll_ops.split_v2(inputCollection, program.group)
-    else if (program.parallel)
-        collections = coll_ops.split_v2(inputCollection, program.parallel, true)
-    else
+    // If SEQUENTIAL is ON then ignore --folder, --group and --parallel
+    if (!program.seq) {
+        // Filter Collection to include only the provided folders
+        if (program.folder.length > 1) {
+            inputCollection = coll_ops.filter_v2(inputCollection, inputCollection, program.folder, { 'tagIncludetest': program.tagIncludetest });
+            _.unset(options, 'folder');
+        }
+
+        // Split into multiple collections
+        if (program.group)
+            collections = coll_ops.split_v2(inputCollection, program.group);
+        else if (program.parallel)
+            collections = coll_ops.split_v2(inputCollection, program.parallel, true);
+        else collections.push(inputCollection);
+    } else
         collections.push(inputCollection);
 
-    if (program.demo) {
-        // In DEMO mode, convert each collection to Postman Collection Object to support for unit tests
-        options.collections = _.each(collections, (coll, idx) => {
-            collections[idx] = new Collection(coll);
+    // If SEQUENTIAL is ON, then create multiple options with same collection having a single folder filter for each
+    if (program.seq && program.folder.length > 1) {
+        _.each(program.folder, (folder) => {
+            let option = _.cloneDeep(options);
+            option.folder = folder;
+            option.collection = collections[0];
+            executions.push(option);
         });
-        return options;
+    } else {
+        _.each(collections, (collection) => {
+            let option = _.cloneDeep(options);
+            option.collection = collection;
+            executions.push(option);
+        });
+    }
+
+    // In DEMO mode, convert each collection to Postman Collection Object to support unit tests
+    if (program.demo) {
+        console.log(options);
+        executions = _.each(executions, (option, idx) => {
+            executions[idx].collection = new Collection(option.collection);
+        });
+        return executions;
+
     } else
-        executeNewman(collections, options);
+        executeNewman(executions, program.seq)
 }
 
-function executeNewman(collections, options) {
+function executeNewman_v1(collections, options) {
     collections.forEach(collection => {
         let option = _.cloneDeep(options);
 
@@ -65,6 +94,31 @@ function executeNewman(collections, options) {
             log('INFO', 'DONE');
         });
     })
+}
+
+function executeNewman(executions, isSequential) {
+    // Using Array Reduce to execute promises in sequence
+    if (isSequential)
+        _.reduce(executions, (chain, option) => {
+            return chain.then(() => { return newmanPromise(option); });
+        }, Promise.resolve([]));
+    else
+        _.each(executions, (option) => {
+            newman.run(option, (err, summary) => {
+                console.log('Finished');
+            });
+        });
+}
+
+let newmanPromise = function(option) {
+    return new Promise((resolve, reject) => {
+        newman.run(option, (err, summary) => {
+            if (err)
+                log('ERROR', err);
+            log('INFO', 'DONE');
+            resolve(summary);
+        });
+    });
 }
 
 function prepareOptions(program) {
@@ -99,7 +153,8 @@ function prepareOptions(program) {
         'color': program.color ? program.color : undefined,
         'sslClientCert': program.sslClientCert,
         'sslClientKey': program.sslClientKey,
-        'sslClientPassphrase': program.sslClientPassphrase
+        'sslClientPassphrase': program.sslClientPassphrase,
+        'timeout': program.timeout || 36000000
     };
 
     // Remove undefined parameters

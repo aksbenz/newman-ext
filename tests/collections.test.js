@@ -18,19 +18,19 @@ beforeEach(() => {
 });
 
 test('run single collection', () => {
-    let options = n.run(initparams);
-    expect(options.collections).to.have.length(1);
-    expect(options.collections[0].items.count()).to.equal(10);
-    expect(coll.allFoldersUnder(options.collections[0])).to.have.length(21);
+    let executions = n.run(initparams);
+    expect(executions).to.have.length(1);
+    expect(executions[0].collection.items.count()).to.equal(10);
+    expect(coll.allFoldersUnder(executions[0].collection)).to.have.length(21);
 });
 
 test('run two collections', () => {
-    let options = n.run(_.concat(initparams, 'run', './tests/sample2.postman_collection.json'));
-    expect(options.collections).to.have.length(1);
-    expect(options.collections[0].items.count()).to.equal(2);
+    let executions = n.run(_.concat(initparams, 'run', './tests/sample2.postman_collection.json'));
+    expect(executions).to.have.length(1);
+    expect(executions[0].collection.items.count()).to.equal(2);
 
-    let fldone = options.collections[0].items.idx(0),
-        fldtwo = options.collections[0].items.idx(1);
+    let fldone = executions[0].collection.items.idx(0),
+        fldtwo = executions[0].collection.items.idx(1);
 
     expect(fldone.name).to.equal('sample');
     expect(fldtwo.name).to.equal('sample2');
@@ -41,21 +41,21 @@ test('run two collections', () => {
     expect(coll.allFoldersUnder(fldone)).to.have.length(21);
     expect(coll.allFoldersUnder(fldtwo)).to.have.length(21);
 
-    expect(coll.allFoldersUnder(options.collections[0])).to.have.length(44);
-    expect(options.collections[0].name).to.equal('sample_sample2');
+    expect(coll.allFoldersUnder(executions[0].collection)).to.have.length(44);
+    expect(executions[0].collection.name).to.equal('sample_sample2');
 
     // fs.writeFileSync('merged.json', JSON.stringify(options.collections[0].toJSON(), '', 2));
 });
 
 test('run two collections filter one folder', () => {
-    let options = n.run(_.concat(initparams, 'run', './tests/sample2.postman_collection.json', '--folder', 'one'));
+    let executions = n.run(_.concat(initparams, 'run', './tests/sample2.postman_collection.json', '--folder', 'one'));
 
-    expect(options.folder).to.equal('one');
-    expect(options.collections).to.have.length(1);
-    expect(options.collections[0].items.count()).to.equal(2);
+    expect(executions[0].folder).to.equal('one');
+    expect(executions).to.have.length(1);
+    expect(executions[0].collection.items.count()).to.equal(2);
 
-    let fldone = options.collections[0].items.idx(0),
-        fldtwo = options.collections[0].items.idx(1);
+    let fldone = executions[0].collection.items.idx(0),
+        fldtwo = executions[0].collection.items.idx(1);
 
     expect(fldone.name).to.equal('sample');
     expect(fldtwo.name).to.equal('sample2');
@@ -66,20 +66,20 @@ test('run two collections filter one folder', () => {
     expect(coll.allFoldersUnder(fldone)).to.have.length(21);
     expect(coll.allFoldersUnder(fldtwo)).to.have.length(21);
 
-    expect(coll.allFoldersUnder(options.collections[0])).to.have.length(44);
-    expect(options.collections[0].name).to.equal('sample_sample2');
+    expect(coll.allFoldersUnder(executions[0].collection)).to.have.length(44);
+    expect(executions[0].collection.name).to.equal('sample_sample2');
 });
 
 test('run two collections filter folders multiple level two', () => {
-    let options = n.run(_.concat(initparams, 'run', './tests/sample2.postman_collection.json', '--folder', 'one_one', '--folder', 'two_one'));
+    let executions = n.run(_.concat(initparams, 'run', './tests/sample2.postman_collection.json', '--folder', 'one_one', '--folder', 'two_one'));
 
-    expect(options.folder).to.be.undefined;
-    expect(options.collections).to.have.length(1);
-    expect(options.collections[0].items.count()).to.equal(2);
-    expect(options.collections[0].name).to.equal('sample_sample2');
+    expect(executions[0].folder).to.be.undefined;
+    expect(executions).to.have.length(1);
+    expect(executions[0].collection.items.count()).to.equal(2);
+    expect(executions[0].collection.name).to.equal('sample_sample2');
 
-    let collone = options.collections[0].items.idx(0),
-        colltwo = options.collections[0].items.idx(1);
+    let collone = executions[0].collection.items.idx(0),
+        colltwo = executions[0].collection.items.idx(1);
 
     expect(collone.name).to.equal('sample');
     expect(colltwo.name).to.equal('sample2');

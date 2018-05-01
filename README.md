@@ -2,6 +2,10 @@
 Extensions to newman   
 Mainly to support running multiple folders at the same time, with few more additions.
 
+```terminal
+$ npm install newman-ext --global
+```
+
 Extension parameters:  
  - `run`  
  Can be given multiple times to merge and execute multiple collections as a single collection.

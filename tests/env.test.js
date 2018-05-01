@@ -65,9 +65,17 @@ test('-n (iteration-count)', () => {
     let executions = n.run(_.concat(initparams, '-n', '99'));
     expect(executions[0].iterationCount).toEqual("99");
 });
+test('--timeout', () => {
+    let executions = n.run(_.concat(initparams, '--timeout', '5000'));
+    expect(executions[0].timeout).toEqual("5000");
+});
 test('--timeout-request', () => {
     let executions = n.run(_.concat(initparams, '--timeout-request', '5000'));
     expect(executions[0].timeoutRequest).toEqual("5000");
+});
+test('--timeout-script', () => {
+    let executions = n.run(_.concat(initparams, '--timeout-script', '5000'));
+    expect(executions[0].timeoutScript).toEqual("5000");
 });
 test('--insecure', () => {
     let executions = n.run(_.concat(initparams, '--insecure'));
@@ -114,7 +122,7 @@ test('--ssl-client-passphrase', () => {
     expect(executions[0].sslClientPassphrase).toEqual('passphrase');
 });
 test('All Command Lines', () => {
-    let params = _.concat(initparams, '--ssl-client-passphrase', 'passphrase', '--ssl-client-key', path, '--ssl-client-cert', path, '--color', '--suppress-exit-code', '--bail', '--delay-request', '5000', '--ignore-redirects', '--insecure', '--timeout-request', '5000', '--environment', path, '--globals', path, '--reporters', 'cli,html', '-d', path, '-n', '99');
+    let params = _.concat(initparams, '--ssl-client-passphrase', 'passphrase', '--ssl-client-key', path, '--ssl-client-cert', path, '--color', '--suppress-exit-code', '--bail', '--delay-request', '5000', '--ignore-redirects', '--insecure', '--timeout', '5000', '--timeout-request', '5000', '--timeout-script', '5000', '--environment', path, '--globals', path, '--reporters', 'cli,html', '-d', path, '-n', '99');
     // console.log(params);
     let executions = n.run(params);
     expect(executions[0].sslClientPassphrase).toEqual('passphrase');
@@ -126,7 +134,9 @@ test('All Command Lines', () => {
     expect(executions[0].delayRequest).toEqual("5000");
     expect(executions[0].ignoreRedirects).toEqual(true);
     expect(executions[0].insecure).toEqual(true);
+    expect(executions[0].timeout).toEqual("5000");
     expect(executions[0].timeoutRequest).toEqual("5000");
+    expect(executions[0].timeoutScript).toEqual("5000");
     expect(executions[0].iterationCount).toEqual("99");
     expect(executions[0].iterationData).toEqual(path);
     expect(executions[0].reporters.length).toBe(2);
@@ -136,7 +146,7 @@ test('All Command Lines', () => {
 });
 
 test('All Command Lines 2', () => {
-    let params = _.concat(initparams, '--ssl-client-passphrase', 'passphrase', '--ssl-client-key', path, '--ssl-client-cert', path, '--color', '-x', '--bail', '--delay-request', '5000', '--ignore-redirects', '-k', '--timeout-request', '5000', '-e', path, '-g', path, '-r', 'cli,html', '--iteration-data', path, '--iteration-count', '99');
+    let params = _.concat(initparams, '--ssl-client-passphrase', 'passphrase', '--ssl-client-key', path, '--ssl-client-cert', path, '--color', '-x', '--bail', '--delay-request', '5000', '--ignore-redirects', '-k', '--timeout', '5000', '--timeout-request', '5000', '--timeout-script', '5000', '-e', path, '-g', path, '-r', 'cli,html', '--iteration-data', path, '--iteration-count', '99');
     // console.log(params);
     let executions = n.run(params);
     expect(executions[0].sslClientPassphrase).toEqual('passphrase');
@@ -148,7 +158,9 @@ test('All Command Lines 2', () => {
     expect(executions[0].delayRequest).toEqual("5000");
     expect(executions[0].ignoreRedirects).toEqual(true);
     expect(executions[0].insecure).toEqual(true);
+    expect(executions[0].timeout).toEqual("5000");
     expect(executions[0].timeoutRequest).toEqual("5000");
+    expect(executions[0].timeoutScript).toEqual("5000");
     expect(executions[0].iterationCount).toEqual("99");
     expect(executions[0].iterationData).toEqual(path);
     expect(executions[0].reporters.length).toBe(2);

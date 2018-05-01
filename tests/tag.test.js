@@ -37,3 +37,25 @@ test('--tag-includetest multiple tags', () => {
         expect(description).to.match(/@l1|@sanity/, 'Fail for: ' + _.get(item, 'name'));
     });
 });
+
+test('-t single tag', () => {
+    let executions = n.run(_.concat(initparams, '--tag-includetest', 'l1'));
+    expect(executions).to.have.length(1);
+    expect(coll.allRequestsUnder(executions[0].collection)).to.have.length(10);
+    expect(executions[0].collection.items.count()).to.equal(10);
+    _.each(coll.allRequestsUnder(executions[0].collection), (item) => {
+        let description = _.get(item, 'request.description.content')
+        expect(description).to.include('@l1');
+    });
+});
+
+test('-t multiple tags', () => {
+    let executions = n.run(_.concat(initparams, '--tag-includetest', 'l1', '--tag-includetest', 'sanity'));
+    expect(executions).to.have.length(1);
+    expect(coll.allRequestsUnder(executions[0].collection)).to.have.length(12);
+    expect(executions[0].collection.items.count()).to.equal(10);
+    _.each(coll.allRequestsUnder(executions[0].collection), (item) => {
+        let description = _.get(item, 'request.description.content')
+        expect(description).to.match(/@l1|@sanity/, 'Fail for: ' + _.get(item, 'name'));
+    });
+});

@@ -15,6 +15,8 @@ Extension parameters:
  Folders to exclude. Can be provided multiple times. Executed before --folder.
  - `--seq`  
  Execute newman seperately for each selected `--folder`. Mainly to create seperate report for each folder.  
+ - `-t, --tags`  
+ Filters REQUESTS(not folders) based on the provided tags. Based on [Cucumber Tags Expressions](http://docs.cucumber.io/cucumber/api/#tags)
 
 ## Examples:
 - `run`
@@ -97,6 +99,12 @@ This will filter `Collection` to exclude folders `one_one` and then include fold
 
 - `--color`<br />
   Use this option to force colored CLI output (for use in CLI for CI / non TTY environments).
+
+- `-t, --tags`<br />
+  Exclude/include REQUESTS based on tag(@text) in description. Requests with no description are not filtered and present in final collection.
+
+- `-m, --remove-emptyDesc`<br />
+  If present, alongwith --tags, then removes requests with empty description
 
 #### Configuring Reporters
 

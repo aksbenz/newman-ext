@@ -31,18 +31,18 @@ function run(params) {
     } else
         inputCollection = JSON.parse(fs.readFileSync(program.run[0]).toString());
 
-    if (program.tagIncludetest.length > 0)
-        inputCollection = coll_ops.tagFilter(inputCollection, inputCollection, { 'tagIncludetest': program.tagIncludetest });
+    if (program.tagParser)
+        inputCollection = coll_ops.tagFilter(inputCollection, inputCollection, program.tagParser, program.removeEmptyDesc);
 
     // Remove exclude folders
     if (program.exclude.length > 0)
         inputCollection = coll_ops.exclude(inputCollection, inputCollection, program.exclude);
 
-    // If SEQUENTIAL is ON then ignore --folder, --group and --parallel
+    // If SEQUENTIAL is ON then ignore filtering by --folder, --group and --parallel
     if (!program.seq) {
         // Filter Collection to include only the provided folders
         if (program.folder.length > 1) {
-            inputCollection = coll_ops.filter(inputCollection, inputCollection, program.folder, { 'tagIncludetest': program.tagIncludetest });
+            inputCollection = coll_ops.filter(inputCollection, inputCollection, program.folder);
             _.unset(options, 'folder');
         }
         collections.push(inputCollection)
@@ -72,14 +72,16 @@ function run(params) {
         });
     }
 
+    if (program.exportCollection)
+        fs.writeFileSync(program.exportCollection, JSON.stringify(inputCollection, null, 2));
+
     // In DEMO mode, convert each collection to Postman Collection Object to support unit tests
     if (program.demo) {
-        // console.log(options);
+        // console.log(executions[0].collection);
         executions = _.each(executions, (option, idx) => {
             executions[idx].collection = new Collection(option.collection);
         });
         return executions;
-
     } else
         executeNewman(executions, program.seq)
 }

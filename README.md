@@ -13,8 +13,8 @@ Extension parameters:
  Can be provided multiple times. Collection will be filtered to keep only these folders.
  - `--exclude`  
  Folders to exclude. Can be provided multiple times. Executed before --folder.
- - `--threads`  
- Execute each --folder as a single newman job upto [threads] jobs in parallel. Only valid when --folders are present.
+ - `--seq`  
+ Execute newman seperately for each selected `--folder`. Mainly to create seperate report for each folder.  
  - `-t, --tags`  
  Filters REQUESTS(not folders) based on the provided tags. Based on [Cucumber Tags Expressions](http://docs.cucumber.io/cucumber/api/#tags)
 
@@ -54,36 +54,6 @@ $ newman-ext run <Collection>  --folder one --folder two --exclude one_one
 ```
 This will filter `Collection` to exclude folders `one_one` and then include folders `one` and `two`
 
-- `--threads`
-```terminal
-$ newman-ext run <Collection> --folder one --folder two --folder three --threads 1
-```
-This will execute collection one by one for each folder. Thereby creating 3 seperate reports
-
-- `--threads`
-```terminal
-$ newman-ext run <Collection> --folder one --folder two --folder three --folder four --threads 2
-```
-This will execute collection one by one for each folder, with upto 2 executions running in parallel. It will create 4 seperate reports
-
-- `--tags`
-```terminal
-$ newman-ext run <Collection> --tags "@sanity"
-```
-This will filter collection to include REQUESTS having WORD "@sanity" in description or empty descriptions and run this collection.
-
-- `--tags`
-```terminal
-$ newman-ext run <Collection> --tags "@sanity" --remove-emptyDesc
-```
-This will filter collection to include REQUESTS having WORD "@sanity" in description (will remove REQUESTS with empty descriptions) and run this collection.
-
-- `--tags`
-```terminal
-$ newman-ext run <Collection> --tags "@sanity and not @l2"
-```
-This will filter collection to include REQUESTS having WORD "@sanity" and not having word "@l2" in description or empty descriptions and run this collection.
-
 ## Command line Options
 
 ### `newman run <collection-file-source> [options]`
@@ -106,9 +76,6 @@ This will filter collection to include REQUESTS having WORD "@sanity" and not ha
 - `--folder <name>`<br />
   Run requests within a particular folder in a collection.
 
-- `--exclude <name>`<br />
-  Folder to exclude from collection. Done before --folder
-
 - `--timeout <ms>`<br />
   Specify the time (in milliseconds) to wait for the entire collection run to complete execution.
 
@@ -120,9 +87,6 @@ This will filter collection to include REQUESTS having WORD "@sanity" and not ha
 
 - `-k`, `--insecure`<br />
   Disables SSL verification checks and allows self-signed SSL certificates.
-
-- `--bail` <br />
-  Specify whether or not to stop a collection run on encountering the first error.
 
 - `--ignore-redirects`<br />
   Prevents newman from automatically following 3XX redirect responses.
@@ -136,26 +100,11 @@ This will filter collection to include REQUESTS having WORD "@sanity" and not ha
 - `--color`<br />
   Use this option to force colored CLI output (for use in CLI for CI / non TTY environments).
 
-- `--ssl-client-cert [path]`<br />
-  The path to the public client certificate file.
-
-- `--ssl-client-key [path]`<br />
-  The path to the private client key (optional).
-
-- `--ssl-client-passphrase [path]`<br />
-  The secret passphrase used to protect the private client key (optional).
-
-- `-t`, `--tags`<br />
+- `-t, --tags`<br />
   Exclude/include REQUESTS based on tag(@text) in description. Requests with no description are not filtered and present in final collection.
 
-- `-m`, `--remove-emptyDesc`<br />
+- `-m, --remove-emptyDesc`<br />
   If present, alongwith --tags, then removes requests with empty description
-
-- `--export-collection [path]`<br />
-  The path to the file where Newman will output the final collection
-
-- `-p`, `--threads [count]`<br />
-  Execute each --folder as a single newman job upto [threads] jobs in parallel. Only valid when --folders are present
 
 #### Configuring Reporters
 

@@ -16,8 +16,8 @@ beforeEach(() => {
     n.__set__('cmd', cmd);
 });
 
-test('--seq --folder multiple single level', () => {
-    let executions = n.run(_.concat(initparams, '--folder', 'one', '--folder', 'two', '--seq'));
+test('--threads --folder multiple single level', () => {
+    let executions = n.run(_.concat(initparams, '--folder', 'one', '--folder', 'two', '--threads', '1'));
     expect(executions).to.have.length(2);
 
     expect(executions[0].folder).to.equal('one');
@@ -35,8 +35,8 @@ test('--seq --folder multiple single level', () => {
     expect(coll.allRequestsUnder(fldtwo)).to.have.length(3);
 });
 
-test('--seq --folder multiple level two', () => {
-    let executions = n.run(_.concat(initparams, '--folder', 'one_one', '--folder', 'two_one', '--seq'));
+test('--threads --folder multiple level two', () => {
+    let executions = n.run(_.concat(initparams, '--folder', 'one_one', '--folder', 'two_one', '--threads', '1'));
     expect(executions).to.have.length(2);
 
     expect(executions[0].folder).to.equal('one_one');
